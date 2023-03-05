@@ -4,48 +4,41 @@ author: elitefan
 source: https://leerob.substack.com/p/why-im-optimistic-about-javascripts
 ---
 
+[以下代码翻译自此文章](https://leerob.substack.com/p/why-im-optimistic-about-javascripts)
+
 # 为什么我对 JavaScript 的未来持乐观态度
 
 > 一次学习，到处编写—— 这是 JavaScript 的目标
 
-> 嗨，我是[Vercel](https://vercel.com/home)的开发体验副总裁
-> ：[Lee](https://leerob.io/)。我写一些我对网络开发持乐观态度的事情。我曾经在
-> Revue
-> （[现在它没了](https://techcrunch.com/2022/12/14/twitter-shuts-down-revue-its-newsletter-platform/)）
-> 运营我的博客订阅，现在我来到了 Substack。如果你在我发布时想及时获取通知，欢迎
-> 订阅。
+> 嗨，我是[Vercel](https://vercel.com/home)的开发体验副总裁：[Lee](https://leerob.io/)。我写一些我对网络开发持乐观态度的
+> 事情。我曾经在 Revue
+> （[现在它没了](https://techcrunch.com/2022/12/14/twitter-shuts-down-revue-its-newsletter-platform/)）运营我的博客，现
+> 在我来到了 Substack。如果你在我发布时想及时获取通知，欢迎订阅。
 
-我对 javas 的未来持乐观态度。
+我对 JavaScript 的未来持乐观态度。
 
-开发者们想编写在任何地方都能运行的 JavaScript，例如浏览器、服务器、或者其他边缘
-计算环境。
+开发者们想编写在任何地方都能运行的 JavaScript，例如浏览器、服务器、或者其他边缘计算环境。
 
-With all its quirks and imperfections, JavaScript continues to rise in adoption
-due to its built-in growth hack (it’s in the browser), its massive ecosystem of
-tools and libraries, and the continued growth and adoption of TypeScript. And
-increasingly, developers are able to learn an API (like Request or Response) and
-reuse that same knowledge everywhere.
+尽管存在各种怪异行为和缺陷，但由于其存在先天性的增长优势（内置于浏览器中），庞大的工具和库生态系统以及 Typescript 的持续
+增长和采用，JavaScript 的采用率持续上升。越来越多的开发者能够学习 API（比如请求和响应）并在任何地方重用相同的知识。
 
-Having an agreed-up common set of APIs (i.e. standards) and platforms that all
-support that same interface (e.g. cross-browser support) means web developers
-can now learn once, write everywhere.
+拥有一套商议好的通用 API（即标准）和支持相同接口的平台（例如跨浏览器支持）意味着 web 开发人员现在可以**一次学习，到处编
+写**。
 
-This post will outline recent improvements to the web platform across the
-browser, server, and edge.
+这篇文章将概述最近浏览器、服务器、边缘计算平台的进步。
 
-## JavaScript: In the Browser
+## JavaScript：在浏览器中
 
-Web developers today spend less time writing vendor-specific JavaScript or
-vendor-specific CSS selectors than ever before.
+今天的 Web 开发人员花在编写特定于浏览器供应商的 JavaScript 或特定于浏览器供应商的 CSS 选择器的时间比以往任何时候都少。
 
 ```javascript
 function isIE11() {
-  return !!window.MSInputMethodContext && !!document.documentMode;
+  return !!window.MSInputMethodContext && !!document.documentMode
 }
 ```
 
-We’ve escaped the world of padding hacks for maintaining an element’s aspect
-ratio:
+我们已经摆脱了维持一个元素正常[纵横比](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio)都要使用 CSS 奇淫巧
+计的世界。
 
 ```css
 @supports not (aspect-ratio: 16/9) {
@@ -57,49 +50,38 @@ ratio:
 }
 ```
 
-Two converging trends are making this possible:
+以下两种合并的趋势使这成为可能：
 
-- **The death of Internet Explorer:**Now that IE 11 is officially retired, web
-  developers can write less vendor-specific CSS, leading to smaller stylesheets
-  and fewer hacks.
-- **Browser engine alignment:** The three major browser engines
-  (Chromium/Chrome, Gecko/Firefox, and Webkit/Safari) now have the best
-  cross-browser support for JavaScript, CSS, and Web APIs we’ve ever seen. Kudos
-  to the [Interop project](https://web.dev/interop-2022/).
+- **IE 浏览器的死亡：** 现在
+  [IE11](https://www.bleepingcomputer.com/news/microsoft/microsoft-edge-update-will-disable-internet-explorer-in-february/)
+  已经退出历史舞台，Web 开发人员可以编写更少的特定 CSS 前缀，从而减少书写用于适配的样式表和 CSS hack。
 
-  Now, of course, it’s not perfect across browser engines, nor will it likely
-  ever be. But it’s the best it’s been and I’m optimistic. Thousands (or
-  millions) of developer hours will be saved cumulatively by not spending a week
-  digging into esoteric IE bugs.
+- **浏览器引擎统一：** 如今三大浏览器引擎（Chromium/Chrome, Gecko/Firefox, and Webkit/Safari）对我们所见过的
+  JavaScript、CSS 和 Web API 拥有最好的跨浏览器支持。必须给[Interop 项目](https://web.dev/interop-2022/)点个赞！
 
-Here’s an example of how this alignment can benefit all web developers. Imagine
-you are a framework author trying to write a reusable image component to help
-thousands of developers achieve great performance when using images. In 2020,
-just a few years ago, you need to work around the web platform.
+现在，JavaScript 在浏览器引擎中当然并不完美，也不可能永远如此。但这是最好的，我对此很乐观。如果不花费一周的时间深入挖掘
+IE 错误，将累计节省数千（或数百万）个开发人员的时间。
 
-Loading an image without causing a [layout shift](https://web.dev/cls/),
-correctly maintaining the aspect ratio, and not degrading initial page load
-performance due to image size/weight was difficult to implement with support
-across all major browsers. This led to developers either ignoring the issues, or
-the frameworks writing component abstractions that produced code like:
+这有一个例子说明了这种统一性是怎样使开发者受益的。想象一下你是一个尝试开发一个可重用图片组件的框架作者，来帮助数以千计的
+开发者在使用图片时能有更好的表现。这在不久以前的 2020 年，你需要围绕网络 平台开展工作。
+
+在所有浏览器支持的情况下，很难在不造成[布局偏移](https://web.dev/cls/)的情况下，实现加载一张图片，并正确的维持纵横比，不
+因图像的大小/质量而降低初始页面的加载性能。这导致开发者要么忽略这个问题，要么框架编写了抽象组件来生成类似下面的代码：
 
 ```html
 <span>
   <-- needed to maintain aspect ratio
   <span>
     <-- needed to maintain aspect ratio, CSS padding hacks
-    <img src="" style="" /> <-- inline styles to prevent layout shift
-    <noscript>...</noscript> <-- JS needed for IntersectionObserver
+    <img src="" style="" /> <-- inline styles to prevent layout shift <noscript>...</noscript> <-- JS needed for
+    IntersectionObserver
   </span>
 </span>
 ```
 
-It’s a different story in 2022. There’s cross-browser support for:
-`aspect-ratio`, [width/height attributes](https://web.dev/optimize-cls/) to
-prevent layout shift, native
-[image lazy-loading](https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading),
-and pure CSS/SVG-based blur-up image placeholders. The above code can drop the
-wrapping elements and work without runtime JavaScript needed.
+2022 年情况不同了，跨浏览器支持：`aspect-ratio`，[width/height attributes](https://web.dev/optimize-cls/)用来防止布局偏
+移，原生[image lazy-loading](https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading)，纯基于 CSS/SVG 的模
+糊图像占位符。上面的代码可以删除包装元素并且不需要 JavaScript 运行时也能正常工作。
 
 ```html
 <img
@@ -113,55 +95,39 @@ wrapping elements and work without runtime JavaScript needed.
 />
 ```
 
-## JavaScript: On the Server
+## JavaScript：在服务器上
 
-Isomorphic JavaScript, or code that could run on both the client and the server,
-has been the ideal state for many web developers. Learn once, write everywhere,
-right? Until recently, Node.js and the web platform were out of alignment.
+同构 JavaScript，或者说可以在客户端和服务端都能运行的代码，对许多 web 开发者来说已经成为一种理想状态。学习一次，到处编写
+，对吧？直到最近，Node.js 和 web 平台依旧不协调。
 
-Consider fetching data over HTTP. In the browser, we had the
-[Web Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
-Prior to Node.js 18, there was no built-in solution for fetching data. Making a
-fetch required using packages like `node-fetch` or `undici`, which had a similar
-but slightly different API, often in non-obvious ways.
+考虑通过 HTTP 获取数据。在浏览器上，我们已经有
+了[Web Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)。Node.js18 之前，并没有内建的解决方案用于
+获取数据，使用 node-fetch 或 undici 等包进行请求数据，它们具有相似但略微不同的 API，区分还很不明显。
 
-This lack of alignment between platforms meant that tools for writing isomorphic
-JavaScript, like Next.js, needed to add polyfills so developers could use fetch
-on both the client and the server. With Node.js 18, these tools can now remove
-additional JavaScript needed to polyfill platform differences, ultimately
-resulting in less JavaScript needed.
+这种在不同平台缺乏的一致性意味着像 Next.js 这样用于书写同构 JavaScript 的工具需要添加各种 polyfill 才能使开发者在客户端
+和服务端使用相同的 fetch api。使用 Node.js 18 之后，这些工具现在就可以移除额外的为了抹去不同平台差异性的 JavaScript
+polyfill 代码，这最终会让 JavaScript 的各种用于解决差异性的依赖变得更少。
 
-I’m optimistic about JavaScript (and TypeScript) on the server. It’s not just
-fetch, either. It’s Request, Response, and **100+ other APIs** that are now
-available in both the browser and in Node.js. Browser vendors and companies
-building server infrastructure are now
-[working closer than ever](https://wintercg.org/) to provide a standard set of
-APIs that can run everywhere, including edge computing platforms.
+我对服务器上的 JavaScript（和 TypeScript）持乐观态度。并不仅仅只是 fetch API 这一点。Request, Response 等 100 多个 API
+现在都能在浏览器和 Node.js 中使用。浏览器供应商和构建服务器基础设施的公司现在比以往任何时候关系都更
+加[紧密](https://wintercg.org/) ，以目的是为了提供一套可以在任何地方运行的标准 API，包括边缘计算平台。
 
-## JavaScript: At the Edge
+## JavaScript：在边缘计算中
 
-Edge computing, the often misunderstood and newest target for running
-JavaScript, has had the least standardization of the three (browser, server,
-edge).
+边缘计算是运行 JavaScript 经常被误解的最新目标，它在三者（浏览器、服务器、边缘计算）中的标准化程度最低。
 
-It’s helpful to think about edge as the highest level of abstraction, where
-you’re spending all of your time on business logic.
-![Moving towards edge computing platforms means a tradeoff for more abstraction, but focusing exclusively on business logic.](https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5b450d64-66d2-4072-bdc0-4eb21d2cbdd5_3840x2160.png)
+将边缘计算视为最高级别的抽象，把你所有的时间都用于构建业务逻辑。
 
-Edge isn’t something completely new, but rather a deliberate and intentional
-tradeoff from the existing Node.js world.
+![转向边缘计算平台意味着要权衡更多的抽象层, 但可以专注于业务逻辑。](https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5b450d64-66d2-4072-bdc0-4eb21d2cbdd5_3840x2160.png)
 
-You want to write JavaScript, but edge compute infrastructure requires a lighter
-subset of the (quite large) Node.js API surface area. By making this tradeoff
-for a subset of Node.js APIs that also run in the browser, you can have
-consistently fast cold boots and more cost-effective compute workloads. That
-sounds pretty nice.
+边缘计算并不是一个全新的东西，而是对现有 Node.js 世界的深思熟虑和有意权衡。
 
-Let’s look at an example. In this case, I’ll use a
-[Vercel Edge Function](https://vercel.com/blog/edge-functions-generally-available).
-But it could also be other edge computing platforms like Cloudflare or Deno. For
-me, the best part of this code is actually that it’s fairly boring. It looks
-like Node.js.
+你想要编写 JavaScript，但是边缘计算的基础设施需要的是（相当巨大的）Node.js API 的一个轻量化子集。通过权衡在浏览器中运行
+的 Node.js API 的子集，你可以获得一个始终如一的快速冷启动和更合算的计算工作负载。听起来美滋滋。
+
+让我们来看个例子。在这个情况下，我将使用
+[Vercel 的边缘函数](https://vercel.com/blog/edge-functions-generally-available)。它也可以是其他例如 Cloudflare 或 Deno
+等边缘计算平台。对我来说，这段代码最好的部分实际上相当无聊，它看起来像 Node.js。
 
 ```javascript
 export const config = {
@@ -184,11 +150,8 @@ export default function handler(req: Request) {
 }
 ```
 
-Here’s the kicker: it’s not just about the infrastructure. It’s about the
-frameworks that are embracing these same Web APIs and helping thousands of new
-developers learn once and write everywhere.
+关键在于：这不仅仅与基础设施有关。它是关于采用这些相同的 Web API 并帮助成千上万的新进开发人员一次学习，到处编写的框架。
 
-This code could work with Next.js. Or SvelteKit. Remix. Fresh. Or the next, new
-web framework that builds upon the same set of standard APIs.
+这段代码在 Next.js. 或 SvelteKit. Remix. Fresh.中都能使用，或者在下一个新的基于同样标准 API 的框架中使用。
 
-**What an incredible time to be a web developer.**
+**成为一名 Web 开发人员真是太棒了。**
